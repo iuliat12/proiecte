@@ -15,11 +15,10 @@ public class AtelierApp extends JFrame {
     private final Color PRIMARY_COLOR = new Color(197, 134, 155);
     private final Color SECONDARY_COLOR = new Color(179, 41, 98);
     private final Color BACKGROUND_COLOR = new Color(255, 228, 225);
-    private final Color TEXT_COLOR = new Color(33, 33, 33);
 
     public AtelierApp() {
         setTitle("Gestiune Atelier");
-        setSize(1000, 700);
+        setSize(1000, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -46,13 +45,15 @@ public class AtelierApp extends JFrame {
         header.add(title);
         panel.add(header, BorderLayout.NORTH);
 
-        JPanel grid = new JPanel(new GridLayout(3, 2, 20, 20));
+        JPanel grid = new JPanel(new GridLayout(4, 2, 20, 20));
         grid.setBackground(BACKGROUND_COLOR);
         grid.setBorder(BorderFactory.createEmptyBorder(30, 80, 30, 80));
 
         grid.add(creazaButonMeniu("Vizualizare Tabele", "VIEW_TABLES"));
+        grid.add(creazaButonMeniu("Adăugare Piesă Nouă", "CREATE_PIESA"));
+        grid.add(creazaButonMeniu("Actualizare Preț Piesă", "UPDATE_PRICE"));
         grid.add(creazaButonMeniu("Devize Nefinalizate", "INTEROGARE_1"));
-        grid.add(creazaButonMeniu("Piese Cantitate Minima", "INTEROGARE_2"));
+        grid.add(creazaButonMeniu("Piese Cantitate Minimă", "INTEROGARE_2"));
         grid.add(creazaButonMeniu("Statistici Depanatori", "INTEROGARE_3"));
         grid.add(creazaButonMeniu("Lichidare Istoric", "DELETE_OLD"));
 
@@ -74,10 +75,68 @@ public class AtelierApp extends JFrame {
     private void handlingNavigare(String target) {
         switch (target) {
             case "VIEW_TABLES" -> deschideSelectieTabel();
+            case "CREATE_PIESA" -> deschideFormularAdaugarePiesa();
+            case "UPDATE_PRICE" -> deschideFormularUpdatePret();
             case "INTEROGARE_1" -> deschidePaginaCautare("Data Constatare (YYYY-MM-DD):", "2025-03-01", this::getSql1303);
             case "INTEROGARE_2" -> deschidePaginaRezultate("Piese Tip Șurub - Cantitate Minimă", getSql1305());
             case "INTEROGARE_3" -> deschidePaginaRezultate("Statistici Financiare 2025", getSql1306());
             case "DELETE_OLD" -> executaDeleteProcedural();
+        }
+    }
+
+    private void deschideFormularAdaugarePiesa() {
+        JTextField idField = new JTextField();
+        JTextField descriereField = new JTextField();
+        JTextField cantitateField = new JTextField();
+        JTextField fabricantField = new JTextField();
+        JTextField pretField = new JTextField();
+
+        Object[] message = {
+                "ID Piesă (id_p):", idField,
+                "Descriere:", descriereField,
+                "Cantitate Stoc:", cantitateField,
+                "Fabricant:", fabricantField,
+                "Preț (pret_c):", pretField
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Adaugă Piesă Nouă", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            try (Connection conn = DriverManager.getConnection(url, user, password);
+                 PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Piesa (id_p, descriere, cantitate_stoc, fabricant, pret_c) VALUES (?, ?, ?, ?, ?)")) {
+
+                pstmt.setInt(1, Integer.parseInt(idField.getText()));
+                pstmt.setString(2, descriereField.getText());
+                pstmt.setInt(3, Integer.parseInt(cantitateField.getText()));
+                pstmt.setString(4, fabricantField.getText());
+                pstmt.setDouble(5, Double.parseDouble(pretField.getText()));
+
+                pstmt.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Piesa a fost adăugată!");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Eroare: " + ex.getMessage());
+            }
+        }
+    }
+
+    private void deschideFormularUpdatePret() {
+        JTextField idField = new JTextField();
+        JTextField pretNouField = new JTextField();
+        Object[] message = { "ID Piesă (id_p):", idField, "Preț Nou (pret_c):", pretNouField };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Actualizare Preț", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            try (Connection conn = DriverManager.getConnection(url, user, password);
+                 PreparedStatement pstmt = conn.prepareStatement("UPDATE Piesa SET pret_c = ? WHERE id_p = ?")) {
+                pstmt.setDouble(1, Double.parseDouble(pretNouField.getText()));
+                pstmt.setInt(2, Integer.parseInt(idField.getText()));
+                if (pstmt.executeUpdate() > 0) {
+                    JOptionPane.showMessageDialog(this, "Preț actualizat!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Piesa nu a fost găsită.");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Eroare: " + ex.getMessage());
+            }
         }
     }
 
@@ -86,71 +145,47 @@ public class AtelierApp extends JFrame {
         selectPanel.setBackground(BACKGROUND_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(15, 15, 15, 15);
-
         JLabel lbl = new JLabel("Selectați tabelul:");
         lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-
-        String[] tabele = {"Deviz", "Piesa", "Piesa_Deviz", "Depanator"};
+        String[] tabele = {"Deviz", "Piesa", "Piesa_Deviz", "Persoana"};
         JComboBox<String> comboTabele = new JComboBox<>(tabele);
-        comboTabele.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        comboTabele.setPreferredSize(new Dimension(200, 35));
-
         JButton btnVezi = new JButton("AFIȘEAZĂ");
         styleButton(btnVezi, PRIMARY_COLOR);
-
         JButton btnBack = new JButton("REVENIRE");
         styleButton(btnBack, SECONDARY_COLOR);
-
         gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
         selectPanel.add(lbl, gbc);
-        gbc.gridy = 1;
-        selectPanel.add(comboTabele, gbc);
+        gbc.gridy = 1; selectPanel.add(comboTabele, gbc);
         gbc.gridy = 2; gbc.gridwidth = 1;
         selectPanel.add(btnVezi, gbc);
-        gbc.gridx = 1;
-        selectPanel.add(btnBack, gbc);
-
+        gbc.gridx = 1; selectPanel.add(btnBack, gbc);
         cardPanel.add(selectPanel, "SELECT_TABLE");
         cardLayout.show(cardPanel, "SELECT_TABLE");
-
-        btnVezi.addActionListener(e -> {
-            String tabel = (String) comboTabele.getSelectedItem();
-            deschidePaginaRezultate("Tabel: " + tabel, "SELECT * FROM " + tabel);
-        });
+        btnVezi.addActionListener(e -> deschidePaginaRezultate("Tabel: " + comboTabele.getSelectedItem(), "SELECT * FROM " + comboTabele.getSelectedItem()));
         btnBack.addActionListener(e -> cardLayout.show(cardPanel, "MENIU"));
     }
 
     private void deschidePaginaRezultate(String titlu, String query) {
         JPanel resultPanel = new JPanel(new BorderLayout());
         resultPanel.setBackground(BACKGROUND_COLOR);
-
         JPanel resHeader = new JPanel();
         resHeader.setBackground(PRIMARY_COLOR);
         JLabel lblTitlu = new JLabel(titlu.toUpperCase());
         lblTitlu.setForeground(Color.WHITE);
         lblTitlu.setFont(new Font("Segoe UI", Font.BOLD, 18));
         resHeader.add(lblTitlu);
-
         DefaultTableModel model = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) { return false; }
+            @Override public boolean isCellEditable(int row, int column) { return false; }
         };
-
         JTable table = new JTable(model);
         styleTable(table);
         incarcaDateInModel(query, model);
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
         JButton btnBack = new JButton("ÎNAPOI");
         styleButton(btnBack, SECONDARY_COLOR);
         btnBack.addActionListener(e -> cardLayout.show(cardPanel, "MENIU"));
-
         resultPanel.add(resHeader, BorderLayout.NORTH);
-        resultPanel.add(scrollPane, BorderLayout.CENTER);
+        resultPanel.add(new JScrollPane(table), BorderLayout.CENTER);
         resultPanel.add(btnBack, BorderLayout.SOUTH);
-
         cardPanel.add(resultPanel, "RESULT_TEMP");
         cardLayout.show(cardPanel, "RESULT_TEMP");
     }
@@ -158,11 +193,8 @@ public class AtelierApp extends JFrame {
     private void styleTable(JTable table) {
         table.setRowHeight(30);
         table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        table.setSelectionBackground(new Color(174, 214, 241));
-        JTableHeader header = table.getTableHeader();
-        header.setBackground(SECONDARY_COLOR);
-        header.setForeground(Color.WHITE);
-        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        table.getTableHeader().setBackground(SECONDARY_COLOR);
+        table.getTableHeader().setForeground(Color.WHITE);
     }
 
     private void styleButton(JButton btn, Color bg) {
@@ -177,22 +209,13 @@ public class AtelierApp extends JFrame {
         try (Connection conn = DriverManager.getConnection(url, user, password);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
-
             ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
-
-            model.setRowCount(0);
-            model.setColumnCount(0);
-
-            for (int i = 1; i <= columnCount; i++) {
-                model.addColumn(metaData.getColumnName(i));
-            }
-
+            int cols = metaData.getColumnCount();
+            model.setRowCount(0); model.setColumnCount(0);
+            for (int i = 1; i <= cols; i++) model.addColumn(metaData.getColumnName(i));
             while (rs.next()) {
                 Vector<Object> row = new Vector<>();
-                for (int i = 1; i <= columnCount; i++) {
-                    row.add(rs.getObject(i));
-                }
+                for (int i = 1; i <= cols; i++) row.add(rs.getObject(i));
                 model.addRow(row);
             }
         } catch (SQLException ex) {
@@ -205,7 +228,7 @@ public class AtelierApp extends JFrame {
     }
 
     private String getSql1305() {
-        return "SELECT * FROM Deviz d WHERE d.id_d IN (SELECT pd1.id_d FROM Piesa_Deviz pd1 JOIN Piesa p1 ON pd1.id_p = p1.id_p WHERE p1.descriere LIKE '%şurub%' AND NOT EXISTS (SELECT 1 FROM Piesa_Deviz pd2 JOIN Piesa p2 ON pd2.id_p = p2.id_p WHERE p2.descriere LIKE '%şurub%' AND pd2.cantitate < pd1.cantitate))";
+        return "SELECT * FROM Deviz d WHERE d.id_d IN (SELECT pd1.id_d FROM Piesa_Deviz pd1 JOIN Piesa p1 ON pd1.id_p = p1.id_p WHERE p1.descriere LIKE '%şurub%' AND NOT EXISTS (SELECT 1 FROM Piesa_Deviz pd2 JOIN Piesa p2 ON pd2.id_p = p2.id_p WHERE p2.descriere LIKE '%şurub%' AND pd2.cantitate_stoc < pd1.cantitate_stoc))";
     }
 
     private String getSql1306() {
@@ -217,30 +240,25 @@ public class AtelierApp extends JFrame {
         searchPanel.setBackground(BACKGROUND_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
-
         JTextField input = new JTextField(defaultVal, 15);
         JButton btnSearch = new JButton("CAUTĂ");
         styleButton(btnSearch, PRIMARY_COLOR);
         JButton btnBack = new JButton("REVENIRE");
         styleButton(btnBack, SECONDARY_COLOR);
-
         gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
         searchPanel.add(new JLabel(label), gbc);
         gbc.gridy = 1; searchPanel.add(input, gbc);
         gbc.gridy = 2; gbc.gridwidth = 1;
         searchPanel.add(btnSearch, gbc);
         gbc.gridx = 1; searchPanel.add(btnBack, gbc);
-
         cardPanel.add(searchPanel, "SEARCH_TEMP");
         cardLayout.show(cardPanel, "SEARCH_TEMP");
-
         btnSearch.addActionListener(e -> deschidePaginaRezultate("Rezultate", queryGen.build(input.getText())));
         btnBack.addActionListener(e -> cardLayout.show(cardPanel, "MENIU"));
     }
 
     private void executaDeleteProcedural() {
-        int confirm = JOptionPane.showConfirmDialog(this, "Ștergeți datele vechi?", "Confirmare", JOptionPane.YES_NO_OPTION);
-        if (confirm == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(this, "Ștergeți datele vechi?", "Confirmare", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             try (Connection conn = DriverManager.getConnection(url, user, password);
                  Statement stmt = conn.createStatement()) {
                 conn.setAutoCommit(false);
