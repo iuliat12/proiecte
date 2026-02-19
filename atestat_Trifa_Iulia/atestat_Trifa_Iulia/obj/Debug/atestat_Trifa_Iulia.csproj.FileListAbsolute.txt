@@ -1,0 +1,12 @@
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\bin\Debug\atestat_Trifa_Iulia.exe.config
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\bin\Debug\atestat_Trifa_Iulia.exe
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\bin\Debug\atestat_Trifa_Iulia.pdb
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\obj\Debug\atestat_Trifa_Iulia.csprojResolveAssemblyReference.cache
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\obj\Debug\atestat_Trifa_Iulia.Form1.resources
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\obj\Debug\atestat_Trifa_Iulia.Properties.Resources.resources
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\obj\Debug\atestat_Trifa_Iulia.csproj.GenerateResource.Cache
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\obj\Debug\atestat_Trifa_Iulia.exe
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\obj\Debug\atestat_Trifa_Iulia.pdb
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\obj\Debug\atestat_Trifa_Iulia.Form2.resources
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\obj\Debug\atestat_Trifa_Iulia.Form3.resources
+C:\Users\utilizator\proiecte c#\atestat_Trifa_Iulia\atestat_Trifa_Iulia\obj\Debug\atestat_Trifa_Iulia.Form4.resources
