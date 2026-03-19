@@ -1,0 +1,95 @@
+[
+  {
+    "id": 1,
+    "title": "Apartament 2 camere 57 mp - Andrei Mureșanu - Dezvoltator",
+    "url": "https://www.storia.ro/ro/oferta/apartament-2-cam-57mp-finisat-cu-c-f-andrei-mureanu-dezvoltator-IDGiSS",
+    "platform": "storia.ro",
+    "price": "250000 EUR",
+    "location": "Andrei Mureșanu, Cluj-Napoca",
+    "surface": "57 mp",
+    "rooms": 2,
+    "image": "https://images.unsplash.com/photo-1560185127-6ed189bf02f4",
+    "description": "Apartament cu 2 camere de 57 mp situat în cartierul Andrei Mureșanu, vândut direct de dezvoltator. Imobil nou, finisaje moderne și compartimentare eficientă.",
+    "scamProbability": 10,
+    "riskLevel": "scăzut",
+    "reasons": [
+      "Prețul pe metru pătrat este suspect de mic pentru zonă, descrierea este vagă și conține erori de formatare, iar informațiile de contact lipsesc din anunț."
+    ],
+    "dateAnalyzed": "2026-03-15T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "title": "Apartament 2 camere cu terasă - Victoriei",
+    "url": "https://www.storia.ro/ro/oferta/apartament-2-camere-terasa-victoriei-comision-0-IDGz1q",
+    "platform": "storia.ro",
+    "price": "185000 EUR",
+    "location": "Victoriei, Cluj-Napoca",
+    "surface": "55 mp",
+    "rooms": 2,
+    "image": "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6",
+    "description": "Apartament cu 2 camere și terasă, situat în zona Victoriei. Compartimentare modernă și comision 0%.",
+    "scamProbability": 50,
+    "riskLevel": "mediu",
+    "reasons": [
+      "Preț apropiat de media pieței din Cluj",
+      "Comision 0% - posibil dezvoltator sau ofertă directă",
+      "Anunț publicat pe Storia"
+    ],
+    "dateAnalyzed": "2026-03-15T10:00:00Z"
+  },
+  {
+    "id": 3,
+    "title": "Apartament 2 camere decomandat - Zorilor",
+    "url": "https://www.storia.ro/ro/oferta/ocazie-2-camere-decomandat-mobilat-modern-in-zorilor-strada-lunii-IDGAo5",
+    "platform": "storia.ro",
+    "price": "165000 EUR",
+    "location": "Zorilor, Cluj-Napoca",
+    "surface": "50 mp",
+    "rooms": 2,
+    "image": "https://images.unsplash.com/photo-1493809842364-78817add7ffb",
+    "description": "Apartament decomandat cu 2 camere, mobilat modern, situat în cartierul Zorilor pe strada Lunii.",
+    "scamProbability": 30,
+    "riskLevel": "scăzut",
+    "reasons": [
+      "Prețul este neobișnuit de mic pentru zona Zorilor, iar descrierea conține erori gramaticale și este vagă."
+    ],
+    "dateAnalyzed": "2026-03-15T10:00:00Z"
+  },
+  {
+    "id": 4,
+    "title": "Apartament 1 cameră 40 mp - zona Iulius Mall",
+    "url": "https://www.storia.ro/ro/oferta/apartament-de-1-camera-decomandat-40mp-zona-iulius-mall-IDGqQx",
+    "platform": "storia.ro",
+    "price": "110000 EUR",
+    "location": "Iulius Mall, Cluj-Napoca",
+    "surface": "40 mp",
+    "rooms": 1,
+    "image": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267",
+    "description": "Garsonieră decomandată de 40 mp situată în apropiere de Iulius Mall. Potrivită pentru investiție sau locuire.",
+    "scamProbability": 20,
+    "riskLevel": "scăzut",
+    "reasons": [
+      "Anunțul este detaliat, folosește un limbaj standard imobiliar și nu prezintă niciunul dintre semnalele de alarmă specificate, cum ar fi preț nerealist (lipsă), descrieri vagi, promisiuni exagerate sau cereri de taxe."
+    ],
+    "dateAnalyzed": "2026-03-15T10:00:00Z"
+  },
+  {
+    "id": 5,
+    "title": "Garsonieră de închiriat",
+    "url": "https://www.olx.ro/d/oferta/dau-in-chirie-garsoniera-IDknp68.html",
+    "platform": "olx.ro",
+    "price": "150 EUR/lună",
+    "location": "Cluj-Napoca",
+    "surface": "30 mp",
+    "rooms": 1,
+    "image": "https://images.unsplash.com/photo-1505691938895-1758d7feb511",
+    "description": "Garsonieră de închiriat mobilată. Anunț publicat pe OLX.",
+    "scamProbability": 40,
+    "riskLevel": "mediu",
+    "reasons": [
+      "Anunțul este extrem de vag, fără descriere și detalii esențiale, ceea ce indică o tentativă de a obține contact fără a oferi informații transparente.",
+      "Descrierea conține erori gramaticale, un typo ('m² m²') și o inconsecvență privind suprafața utilă și construită pentru un apartament cu terasă. Prețul este însă realist pentru zonă, iar alte semne clare de fraudă lipsesc din textul furnizat."
+    ],
+    "dateAnalyzed": "2026-03-15T10:00:00Z"
+  }
+]
